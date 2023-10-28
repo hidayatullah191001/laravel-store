@@ -34,11 +34,15 @@
                         Gallery</a>
                     <a href="/admin/category"
                         class="list-group-item list-group-item-action {{ request()->is('admin/category*') ? 'active' : '' }}">Categories</a>
-                    <a href="#" class="list-group-item list-group-item-action">Transactions</a>
+                    <a href="/admin/transaction"
+                        class="list-group-item list-group-item-action {{ request()->is('admin/transaction*') ? 'active' : '' }}">Transactions</a>
                     <a href="/admin/user"
                         class="list-group-item list-group-item-action {{ request()->is('admin/user*') ? 'active' : '' }}">Users</a>
-
-                    <a href="" class="list-group-item list-group-item-action">Sign Out</a>
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit()"
+                        class="list-group-item list-group-item-action">Sign Out</a>
+                    <form action="{{ route('logout') }}" method="POST" style="display: none" id="logout-form">@csrf
+                    </form>
                 </div>
             </div>
 
@@ -61,10 +65,15 @@
                                         data-toggle="dropdown">
                                         <img src="/images/icon-user.png" alt=""
                                             class="rounded-circle mr-2 profile-picture" />
-                                        Hi, Angga
+                                        Hi, {{ Auth::user()->name }}
                                     </a>
                                     <div class="dropdown-menu">
-                                        <a href="/" class="dropdown-item">Logout</a>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit()"
+                                            class="dropdown-item">Logout</a>
+                                        <form action="{{ route('logout') }}" method="POST" style="display: none"
+                                            id="logout-form">@csrf
+                                        </form>
                                     </div>
                                 </li>
 

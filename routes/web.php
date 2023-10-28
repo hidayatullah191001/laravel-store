@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ProductGalleryController as AdminProductGalleryController;
+use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
@@ -47,7 +48,6 @@ Route::get('/register/success', [RegisterController::class, 'success'])->name('r
 Auth::routes();
 
 
-
 Route::middleware('auth')->group(function(){
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::delete('/cart/{id}', [CartController::class, 'delete'])->name('cart-delete');
@@ -76,7 +76,7 @@ Route::middleware('auth')->group(function(){
 });
 
 Route::middleware('admin')->group(function(){
-    Route::get('/admin', [AdminDashboardController::class, 'index'])->name('admin-dashboard');
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('admin-dashboard');
     Route::get('/admin/categories/checkSlug', [AdminCategoryController::class, 'checkSlug']);  
     Route::get('/admin/products/checkSlug', [AdminProductController::class, 'checkSlug']);  
     
@@ -84,6 +84,7 @@ Route::middleware('admin')->group(function(){
     Route::resource('admin/user', AdminUserController::class);
     Route::resource('admin/product', AdminProductController::class);
     Route::resource('admin/product-gallery', AdminProductGalleryController::class);
+    Route::resource('admin/transaction', AdminTransactionController::class);
     
 });
 

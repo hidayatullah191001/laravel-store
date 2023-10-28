@@ -51,6 +51,29 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'store_name' => 'nullable|string|max:255',
+            'categories_id' => 'nullable|integer|exists:categories,id'
+        ]);
+
+        if ($validated) {
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'store_name' => isset($request->store_name) ? $request->store_name : '',
+                'categories_id' => isset($request->categories_id) ? $request->categories_id : NULL,
+                'store_status' => isset($request->is_store_open) ? 1 : 0,
+            ]);
+        }
+        return redirect()->route('login')->with('success', 'Akun berhasil didaftarkan');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -68,6 +91,7 @@ class RegisterController extends Controller
             'is_store_open' => ['required'],
         ]);
     }
+    
 
     /**
      * Create a new user instance after a valid registration.
@@ -79,7 +103,6 @@ class RegisterController extends Controller
     {
          User::create([
             'name' => $data['name'],
-
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'store_name' => isset($data['store_name']) ? $data['store_name'] : '',
