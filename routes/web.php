@@ -75,17 +75,29 @@ Route::middleware('auth')->group(function(){
 
 });
 
-Route::middleware('admin')->group(function(){
+// Route::middleware('admin')->group(function(){
+//     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin-dashboard');
+//     Route::get('/admin/categories/checkSlug', [AdminCategoryController::class, 'checkSlug']);  
+//     Route::get('/admin/products/checkSlug', [AdminProductController::class, 'checkSlug']);  
+    
+//     Route::resource('admin/category', AdminCategoryController::class);
+//     Route::resource('admin/user', AdminUserController::class);
+//     Route::resource('admin/product', AdminProductController::class);
+//     Route::resource('admin/product-gallery', AdminProductGalleryController::class);
+//     Route::resource('admin/transaction', AdminTransactionController::class);
+    
+// });
+
+Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin-dashboard');
-    Route::get('/admin/categories/checkSlug', [AdminCategoryController::class, 'checkSlug']);  
-    Route::get('/admin/products/checkSlug', [AdminProductController::class, 'checkSlug']);  
+    Route::get('categories/checkSlug', [AdminCategoryController::class, 'checkSlug']);  
+    Route::get('products/checkSlug', [AdminProductController::class, 'checkSlug']);  
     
-    Route::resource('admin/category', AdminCategoryController::class);
-    Route::resource('admin/user', AdminUserController::class);
-    Route::resource('admin/product', AdminProductController::class);
-    Route::resource('admin/product-gallery', AdminProductGalleryController::class);
-    Route::resource('admin/transaction', AdminTransactionController::class);
-    
+    Route::resource('category', AdminCategoryController::class);
+    Route::resource('user', AdminUserController::class);
+    Route::resource('product', AdminProductController::class);
+    Route::resource('product-gallery', AdminProductGalleryController::class);
 });
+
 
 
