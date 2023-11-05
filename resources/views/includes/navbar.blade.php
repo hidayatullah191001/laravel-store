@@ -34,14 +34,28 @@
                             Hi, {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu">
-                            <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
-                            <a href="{{ route('dashboard-settings-account') }}" class="dropdown-item">Settings</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ route('logout') }}"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit()"
-                                class="dropdown-item">Logout</a>
-                            <form action="{{ route('logout') }}" method="POST" style="display: none" id="logout-form">@csrf
-                            </form>
+
+                            @if (Auth::user()->roles == 'ADMIN')
+                                <a href="{{ route('admin-dashboard') }}" class="dropdown-item">Dashboard</a>
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit()"
+                                    class="dropdown-item">Logout</a>
+                                <form action="{{ route('logout') }}" method="POST" style="display: none" id="logout-form">
+                                    @csrf
+                                </form>
+                            @else
+                                <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
+                                <a href="{{ route('dashboard-settings-account') }}" class="dropdown-item">Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit()"
+                                    class="dropdown-item">Logout</a>
+                                <form action="{{ route('logout') }}" method="POST" style="display: none" id="logout-form">
+                                    @csrf
+                                </form>
+                            @endif
+
+
                         </div>
                     </li>
                     <li class="nav-item">
@@ -56,8 +70,6 @@
                             @else
                                 <img src="/images/icon-cart-empty.svg" alt="" />
                             @endif
-
-
                         </a>
                     </li>
                 </ul>
